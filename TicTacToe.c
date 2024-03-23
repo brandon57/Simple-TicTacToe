@@ -104,6 +104,8 @@ int check_board()
     char temp[3];
     int count = 0;
     int x = 0;
+
+    // Checks for row wins
     for(int row = 0; row < 3; row++)
     {
         for(int column = 0; column < 3; column++)
@@ -135,6 +137,7 @@ int check_board()
         }
     }
 
+    // Checks for column wins
     for(int column = 0; column < 3; column++)
     {
         for(int row = 0; row < 3; row++)
@@ -162,6 +165,63 @@ int check_board()
                     x++;
                     temp[0] = board[row][column];
                 }
+            }
+        }
+    }
+
+    // Checks for diagonal wins
+    for(int i = 0; i < 3; i++)
+    {
+        if(board[i][i] == ' ' || board[i][i] != board[i+1][i+1])
+        {
+            x = 0;
+            break;
+        }
+        else if(board[i][i] == board[i+1][i+1])
+        {
+            if(x == 1)
+            {
+                if(temp[0] == player_char)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+            else
+            {
+                x++;
+                temp[0] = board[i][i];
+            }
+        }
+    }
+
+    for(int i = 0; i < 3; i++)
+    {
+        if(board[i][2-i] == ' ' || board[i][2-i] != board[i+1][i-1])
+        {
+            x = 0;
+            break;
+        }
+        else if(board[i][2-i] == board[i+1][i-1])
+        {
+            if(x == 1)
+            {
+                if(temp[0] == player_char)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+            }
+            else
+            {
+                x++;
+                temp[0] = board[i][2-i];
             }
         }
     }
@@ -235,7 +295,7 @@ int main()
                 turn = 1;
                 break;
         }
-        if(turn_num >= 3)
+        if(turn_num >= 6)
         {
             result = check_board();
             if(result == 1)
@@ -249,7 +309,8 @@ int main()
                 break;
             }
         }
-        else if(turn_num == 9)
+        
+        if(turn_num == 9)
         {
             printf("There is a draw\n");
             break;
