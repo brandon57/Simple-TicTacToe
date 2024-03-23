@@ -79,8 +79,6 @@ void player()
             printf("Invalid position\nTry again\n");
         }
     }
-    
-    // scanf("%d", );
 }
 
 void CPU()
