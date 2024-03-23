@@ -83,7 +83,30 @@ void player()
 
 void CPU()
 {
+    int size = 3;
+    int* valid_rows;
+    int* valid_columns;
+
+    valid_rows = (int*)calloc(size, sizeof(int));
+    valid_columns = (int*)calloc(size, sizeof(int));
+
     int row, column;
+    int counter = 0;
+    for(int i = 0; i < 3; i++)
+    {
+        for(int j = 0; j < 3; j++)
+        {
+            if(board[i][j] == ' ')
+            {
+                valid_columns[counter] = j;
+                valid_rows[counter] = i;
+                counter++;
+            }
+        }
+    }
+    
+    
+    
     while(1)
     {
         row = rand() % 3;

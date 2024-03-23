@@ -2,3 +2,4 @@ build/Debug/outDebug
 *.o
 *.out
 TicTacToe
+.vscode
