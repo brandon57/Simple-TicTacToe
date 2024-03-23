@@ -90,7 +90,7 @@ void CPU()
     {
         row = rand() % 3;
         column = rand() % 3;
-        printf("row: %d, column: %d\n", row, column);
+        // printf("row: %d, column: %d\n", row, column);
         if(board[row][column] == ' ')
         {
             board[row][column] = CPU_char;
@@ -99,27 +99,123 @@ void CPU()
     }
 }
 
-void check_board()
+int check_board()
 {
-    printf("check\n");
+    char temp[3];
+    int count = 0;
+    int x = 0;
+    for(int row = 0; row < 3; row++)
+    {
+        for(int column = 0; column < 3; column++)
+        {
+            if(board[row][column] == ' ' || board[row][column] != board[row][column+1])
+            {
+                x = 0;
+                break;
+            }
+            else if(board[row][column] == board[row][column+1])
+            {
+                if(x == 1)
+                {
+                    if(temp[0] == player_char)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                else
+                {
+                    x++;
+                    temp[0] = board[row][column];
+                }
+            }
+        }
+    }
+
+    for(int column = 0; column < 3; column++)
+    {
+        for(int row = 0; row < 3; row++)
+        {
+            if(board[row][column] == ' ' || board[row][column] != board[row+1][column])
+            {
+                x = 0;
+                break;
+            }
+            else if(board[row][column] == board[row+1][column])
+            {
+                if(x == 1)
+                {
+                    if(temp[0] == player_char)
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+                }
+                else
+                {
+                    x++;
+                    temp[0] = board[row][column];
+                }
+            }
+        }
+    }
+
+
+    // for(int row = 0; row < 3; row++)
+    // {
+    //     for(int column = 0; column < 3; column++)
+    //     {
+    //         temp[count] = board[row][column];
+    //         if(board[row][column+1] == temp[count])
+    //         {
+    //             continue;
+    //         }
+    //         else if(board[row+1][column] == temp[count])
+    //         {
+    //             break;
+    //         }
+    //         else if(board[row+1][column+1] == temp[count])
+    //         {
+    //             column++;
+    //             row++;
+    //         }
+    //         else
+    //         {
+    //             return 0;
+    //         }
+
+    //         if(count == 3)
+    //         {
+    //             if(temp[0] == 'X')
+    //             {
+    //                 return 1;
+    //             }
+    //             else if(temp[0] == 'O')
+    //             {
+    //                 return 2;
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 int main()
 {
     char input, temp;
+    int result;
     int turn_num = 0;
-    //input = (char *) malloc(50);
     slow_text(start);
     slow_text("Press enter to start");
-    // char temp[input_size];
     scanf("%c", &temp);
-    // fgets(temp, input_size, stdin);
-    // fflush(stdin);
     printf("Do you want to go first or second?\n");
-    // fgets(temp, input_size, stdin);
     scanf("%c", &input);
     first_second(input);
-    // print_board();
 
     while(1)
     {
@@ -141,9 +237,24 @@ int main()
         }
         if(turn_num >= 3)
         {
-            check_board();
+            result = check_board();
+            if(result == 1)
+            {
+                printf("Player won!\n");
+                break;
+            }
+            else if(result == 2)
+            {
+                printf("CPU won!\n");
+                break;
+            }
+        }
+        else if(turn_num == 9)
+        {
+            printf("There is a draw\n");
+            break;
         }
     }
-
-    printf("Thanks for playing!");
+    print_board();
+    printf("Thanks for playing!\n");
 }
